@@ -1,29 +1,55 @@
 package com.wg.pms.controller;
 
+import cn.hutool.core.collection.CollUtil;
 import com.wg.pms.common.CommonResult;
 import com.wg.pms.entity.Hr;
 import com.wg.pms.entity.Menu;
+import com.wg.pms.entity.Role;
 import com.wg.pms.entity.vo.AdminLoginParam;
 import com.wg.pms.service.HrService;
+import com.wg.pms.service.RoleService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/admin")
+@CrossOrigin
 public class HrController {
     @Autowired
     HrService hrService;
-
+    @Autowired
+    RoleService roleService;
     @Value("${jwt.tokenHead}")
     private String tokenHead;
 
+    @ApiOperation(value = "获取当前登录用户信息")
+    @RequestMapping(value = "/info", method = RequestMethod.GET)
+    public CommonResult getAdminInfo(Principal principal) {
+        if(principal==null){
+            return CommonResult.unauthorized(null);
+        }
+        String username = principal.getName();
+        Hr admin = hrService.getAdminByUsername(username);
+        Map<String, Object> data = new HashMap<>();
+        data.put("username", admin.getUsername());
+        data.put("menus", roleService.getMenuList(admin.getId()));
+        data.put("icon", admin.getUserface());
+        List<Role> roleList = roleService.getRoleList(admin.getId());
+        if(CollUtil.isNotEmpty(roleList)){
+            List<String> roles = roleList.stream().map(Role::getName).collect(Collectors.toList());
+            data.put("roles",roles);
+        }
+        return CommonResult.success(data);
+    }
     @ApiOperation(value = "用户注册")
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public CommonResult<Hr> register(@RequestBody Hr adminParam, BindingResult result) {
