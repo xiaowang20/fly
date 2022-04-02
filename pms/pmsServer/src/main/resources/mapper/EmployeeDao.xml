@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wg.pms.dao.EmployeeDao">
+    <resultMap id="BaseResultMap" type="com.wg.pms.entity.Employee">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="gender" jdbcType="CHAR" property="gender" />
+        <result column="birthday" jdbcType="DATE" property="birthday" />
+        <result column="idCard" jdbcType="CHAR" property="idcard" />
+        <result column="wedlock" jdbcType="CHAR" property="wedlock" />
+        <result column="nationId" jdbcType="INTEGER" property="nationid" />
+        <result column="nativePlace" jdbcType="VARCHAR" property="nativeplace" />
+        <result column="politicId" jdbcType="INTEGER" property="politicid" />
+        <result column="email" jdbcType="VARCHAR" property="email" />
+        <result column="phone" jdbcType="VARCHAR" property="phone" />
+        <result column="address" jdbcType="VARCHAR" property="address" />
+        <result column="departmentId" jdbcType="INTEGER" property="departmentid" />
+        <result column="jobLevelId" jdbcType="INTEGER" property="joblevelid" />
+        <result column="posId" jdbcType="INTEGER" property="posid" />
+        <result column="engageForm" jdbcType="VARCHAR" property="engageform" />
+        <result column="tiptopDegree" jdbcType="CHAR" property="tiptopdegree" />
+        <result column="specialty" jdbcType="VARCHAR" property="specialty" />
+        <result column="school" jdbcType="VARCHAR" property="school" />
+        <result column="beginDate" jdbcType="DATE" property="begindate" />
+        <result column="workState" jdbcType="CHAR" property="workstate" />
+        <result column="workID" jdbcType="CHAR" property="workid" />
+        <result column="contractTerm" jdbcType="DOUBLE" property="contractterm" />
+        <result column="conversionTime" jdbcType="DATE" property="conversiontime" />
+        <result column="notWorkDate" jdbcType="DATE" property="notworkdate" />
+        <result column="beginContract" jdbcType="DATE" property="begincontract" />
+        <result column="endContract" jdbcType="DATE" property="endcontract" />
+        <result column="workAge" jdbcType="INTEGER" property="workage" />
+        <collection property="politicsstatus" ofType="com.wg.pms.entity.Politicsstatus" columnPrefix="polsta_">
+            <result column="id" property="id" jdbcType="BIGINT"/>
+            <result column="name" property="name" jdbcType="VARCHAR"/>
+        </collection>
+        <collection property="nation" ofType="com.wg.pms.entity.Nation" columnPrefix="nat_">
+            <result column="id" property="id" jdbcType="BIGINT"/>
+            <result column="name" property="name" jdbcType="VARCHAR"/>
+        </collection>
+        <collection property="department" ofType="com.wg.pms.entity.Department" columnPrefix="dep_">
+            <result column="id" property="id" jdbcType="BIGINT"/>
+            <result column="name" property="name" jdbcType="VARCHAR"/>
+        </collection>
+        <collection property="jobLevel" ofType="com.wg.pms.entity.Joblevel" columnPrefix="job_">
+            <result column="id" property="id" jdbcType="BIGINT"/>
+            <result column="name" property="name" jdbcType="VARCHAR"/>
+        </collection>
+        <collection property="position" ofType="com.wg.pms.entity.Position" columnPrefix="posi_">
+            <result column="id" property="id" jdbcType="BIGINT"/>
+            <result column="name" property="name" jdbcType="VARCHAR"/>
+        </collection>
+    </resultMap>
+    <select id="getAllEmpIsNull" resultMap="BaseResultMap">
+        SELECT e.*,
+        p.`id` polsta_id,p.`name` polsta_name,
+        n.`id` nat_id,n.`name` nat_name,
+        d.`id` dep_id,d.`name` dep_name,
+        j.`id` job_id,j.`name` job_name,
+        pos.`id` posi_id,pos.`name` posi_name
+        FROM employee e
+        LEFT JOIN nation n ON e.nationId = n.id
+        LEFT JOIN politicsstatus p ON e.politicId = p.id
+        LEFT JOIN department d ON e.departmentId = d.id
+        LEFT JOIN joblevel j ON e.jobLevelId= j.id
+        LEFT JOIN POSITION pos  ON e.posId= pos.id
+        where limit #{page},#{size}
+    </select>
+    <select id="getAllEmp" resultMap="BaseResultMap">
+        SELECT e.*,
+        p.`id` polsta_id,p.`name` polsta_name,
+        n.`id` nat_id,n.`name` nat_name,
+        d.`id` dep_id,d.`name` dep_name,
+        j.`id` job_id,j.`name` job_name,
+        pos.`id` posi_id,pos.`name` posi_name
+        FROM employee e
+        LEFT JOIN nation n ON e.nationId = n.id
+        LEFT JOIN politicsstatus p ON e.politicId = p.id
+        LEFT JOIN department d ON e.departmentId = d.id
+        LEFT JOIN joblevel j ON e.jobLevelId= j.id
+        LEFT JOIN POSITION pos  ON e.posId= pos.id
+
+        <where>
+            <choose>
+                <when test="keyword != null and keyword != ''">
+                    and e.name like concat('%',#{keyword},'%')
+                </when>
+                <otherwise>
+                    and #{keyword} is null
+                </otherwise>
+
+            </choose>
+            <if test="page !=null and size!=null">
+                limit #{page},#{size}
+            </if>
+        </where>
+    </select>
+    <select id="list" resultMap="BaseResultMap">
+    SELECT e.*,
+        p.`id` polsta_id,p.`name` polsta_name,
+        n.`id` nat_id,n.`name` nat_name,
+        d.`id` dep_id,d.`name` dep_name,
+        j.`id` job_id,j.`name` job_name,
+        pos.`id` posi_id,pos.`name` posi_name
+        FROM employee e
+        LEFT JOIN nation n ON e.nationId = n.id
+        LEFT JOIN politicsstatus p ON e.politicId = p.id
+        LEFT JOIN department d ON e.departmentId = d.id
+        LEFT JOIN joblevel j ON e.jobLevelId= j.id
+        LEFT JOIN POSITION pos  ON e.posId= pos.id
+        <where>
+            <if test="emp.name !=null and emp.name!=''">
+                and e.name like concat('%',#{emp.name},'%')
+            </if>
+            <if test="emp.politicId !=null">
+                and e.politicId =#{emp.politicid}
+            </if>
+            <if test="emp.nationId !=null">
+                and e.nationId =#{emp.nationid}
+            </if>
+            <if test="emp.departmentId !=null">
+                and e.departmentId =#{emp.departmentid}
+            </if>
+            <if test="emp.jobLevelId !=null">
+                and e.jobLevelId =#{emp.joblevelid}
+            </if>
+            <if test="emp.engageForm !=null and emp.engageForm!=''">
+                and e.engageForm =#{emp.engageform}
+            </if>
+            <if test="emp.posId !=null">
+                and e.posId =#{emp.posid}
+            </if>
+
+            <if test="page !=null and size!=null">
+                limit #{page},#{size}
+            </if>
+        </where>
+    </select>
+</mapper>

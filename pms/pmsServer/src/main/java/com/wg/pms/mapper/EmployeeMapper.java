@@ -2,10 +2,13 @@ package com.wg.pms.mapper;
 
 import com.wg.pms.entity.Employee;
 import com.wg.pms.entity.EmployeeExample;
+
+import java.util.Date;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 public interface EmployeeMapper {
+
     long countByExample(EmployeeExample example);
 
     int deleteByExample(EmployeeExample example);

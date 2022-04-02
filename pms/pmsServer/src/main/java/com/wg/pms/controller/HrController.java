@@ -8,6 +8,7 @@ import com.wg.pms.entity.Role;
 import com.wg.pms.entity.vo.AdminLoginParam;
 import com.wg.pms.service.HrService;
 import com.wg.pms.service.RoleService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Api(tags = "用户管理")
 @RestController
 @RequestMapping("/admin")
 @CrossOrigin
@@ -71,6 +73,11 @@ public class HrController {
         tokenMap.put("token", token);
         tokenMap.put("tokenHead", tokenHead);
         return CommonResult.success(tokenMap);
+    }
+    @ApiOperation(value = "登出功能")
+    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    public CommonResult logout() {
+        return CommonResult.success(null);
     }
 
     @ApiOperation("获取用户所有权限（包括+-权限）")
