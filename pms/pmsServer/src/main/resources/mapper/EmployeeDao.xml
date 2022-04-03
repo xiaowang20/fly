@@ -30,43 +30,28 @@
         <result column="beginContract" jdbcType="DATE" property="begincontract" />
         <result column="endContract" jdbcType="DATE" property="endcontract" />
         <result column="workAge" jdbcType="INTEGER" property="workage" />
-        <collection property="politicsstatus" ofType="com.wg.pms.entity.Politicsstatus" columnPrefix="polsta_">
-            <result column="id" property="id" jdbcType="BIGINT"/>
+        <collection property="politicsstatus" javaType="com.wg.pms.entity.Politicsstatus" columnPrefix="polsta_">
+            <result column="id" property="id" jdbcType="INTEGER"/>
             <result column="name" property="name" jdbcType="VARCHAR"/>
         </collection>
-        <collection property="nation" ofType="com.wg.pms.entity.Nation" columnPrefix="nat_">
-            <result column="id" property="id" jdbcType="BIGINT"/>
-            <result column="name" property="name" jdbcType="VARCHAR"/>
+        <collection property="nation" javaType="com.wg.pms.entity.Nation" columnPrefix="nat_">
+            <result column="id" jdbcType="INTEGER" property="id" />
+            <result column="name" jdbcType="VARCHAR" property="name" />
         </collection>
-        <collection property="department" ofType="com.wg.pms.entity.Department" columnPrefix="dep_">
-            <result column="id" property="id" jdbcType="BIGINT"/>
-            <result column="name" property="name" jdbcType="VARCHAR"/>
+        <collection property="department" javaType="com.wg.pms.entity.Department" columnPrefix="dep_">
+            <result column="id" jdbcType="INTEGER" property="id" />
+            <result column="name" jdbcType="VARCHAR" property="name" />
         </collection>
-        <collection property="jobLevel" ofType="com.wg.pms.entity.Joblevel" columnPrefix="job_">
-            <result column="id" property="id" jdbcType="BIGINT"/>
-            <result column="name" property="name" jdbcType="VARCHAR"/>
+        <collection property="joblevel" javaType="com.wg.pms.entity.Joblevel" columnPrefix="job_" >
+            <result column="id" jdbcType="INTEGER" property="id" />
+            <result column="name" jdbcType="VARCHAR" property="name" />
         </collection>
-        <collection property="position" ofType="com.wg.pms.entity.Position" columnPrefix="posi_">
-            <result column="id" property="id" jdbcType="BIGINT"/>
-            <result column="name" property="name" jdbcType="VARCHAR"/>
+        <collection property="position" javaType="com.wg.pms.entity.Position" columnPrefix="posi_">
+            <result column="id"  jdbcType="INTEGER" property="id" />
+            <result column="name" jdbcType="VARCHAR" property="name" />
         </collection>
     </resultMap>
-    <select id="getAllEmpIsNull" resultMap="BaseResultMap">
-        SELECT e.*,
-        p.`id` polsta_id,p.`name` polsta_name,
-        n.`id` nat_id,n.`name` nat_name,
-        d.`id` dep_id,d.`name` dep_name,
-        j.`id` job_id,j.`name` job_name,
-        pos.`id` posi_id,pos.`name` posi_name
-        FROM employee e
-        LEFT JOIN nation n ON e.nationId = n.id
-        LEFT JOIN politicsstatus p ON e.politicId = p.id
-        LEFT JOIN department d ON e.departmentId = d.id
-        LEFT JOIN joblevel j ON e.jobLevelId= j.id
-        LEFT JOIN POSITION pos  ON e.posId= pos.id
-        where limit #{page},#{size}
-    </select>
-    <select id="getAllEmp" resultMap="BaseResultMap">
+    <select id="getAllEmp" resultMap="BaseResultMap" resultType="Long">
         SELECT e.*,
         p.`id` polsta_id,p.`name` polsta_name,
         n.`id` nat_id,n.`name` nat_name,
@@ -90,11 +75,25 @@
                 </otherwise>
 
             </choose>
-            <if test="page !=null and size!=null">
-                limit #{page},#{size}
-            </if>
         </where>
+
     </select>
+    <select id="getAllEmpIsNull" resultMap="BaseResultMap">
+        SELECT e.*,
+        p.`id` polsta_id,p.`name` polsta_name,
+        n.`id` nat_id,n.`name` nat_name,
+        d.`id` dep_id,d.`name` dep_name,
+        j.`id` job_id,j.`name` job_name,
+        pos.`id` posi_id,pos.`name` posi_name
+        FROM employee e
+        LEFT JOIN nation n ON e.nationId = n.id
+        LEFT JOIN politicsstatus p ON e.politicId = p.id
+        LEFT JOIN department d ON e.departmentId = d.id
+        LEFT JOIN joblevel j ON e.jobLevelId= j.id
+        LEFT JOIN POSITION pos  ON e.posId= pos.id
+        where limit #{page},#{size}
+    </select>
+
     <select id="list" resultMap="BaseResultMap">
     SELECT e.*,
         p.`id` polsta_id,p.`name` polsta_name,

@@ -1,15 +1,14 @@
 package com.wg.pms.controller.employee;
 
+
 import com.wg.pms.common.CommonPage;
 import com.wg.pms.common.CommonResult;
-import com.wg.pms.common.RespPageBean;
 import com.wg.pms.entity.Employee;
-import com.wg.pms.entity.Politicsstatus;
 import com.wg.pms.service.EmployeeService;
 import com.wg.pms.service.PoliticsStatusService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.BeanUtils;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,11 +50,12 @@ public class EmployeeController {
     @ApiOperation("获取员工所有信息")
     @GetMapping("/getAllEmp")
     public CommonResult<CommonPage<Employee>> getAllEmp(@RequestParam(value = "pageNum",defaultValue = "1") int page,
-                                                        @RequestParam(value = "size",defaultValue = "10") int size,
+                                                        @RequestParam(value = "pageSize",defaultValue = "10") int size,
                                                         @RequestParam(required = false) String keyword
                                                         ){
 
         List<Employee> employeeList =  employeeService.getAllEmp(page,size,keyword);
+
         return CommonResult.success(CommonPage.restPage(employeeList));
     }
 

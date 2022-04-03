@@ -3,6 +3,8 @@ package com.wg.pms.service.Impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.util.StringUtil;
+import com.jn.sqlhelper.dialect.pagination.PagingRequest;
+import com.jn.sqlhelper.dialect.pagination.SqlPaginations;
 import com.wg.pms.common.RespPageBean;
 import com.wg.pms.dao.EmployeeDao;
 import com.wg.pms.entity.*;
@@ -14,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -48,10 +51,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public List<Employee> getAllEmp(int page, int size,String keyword) {
-//        PageHelper.startPage(page,size);
-        List<Employee> allEmp = employeeDao.getAllEmp(page, size, keyword);
-        System.out.println(allEmp);
-        return allEmp;
+
+        PageHelper.startPage(page,size);
+
+        return  employeeDao.getAllEmp(page, size, keyword);
     }
 
 
