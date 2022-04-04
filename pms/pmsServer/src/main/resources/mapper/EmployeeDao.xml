@@ -71,28 +71,14 @@
                     and e.name like concat('%',#{keyword},'%')
                 </when>
                 <otherwise>
-                    and #{keyword} is null
+                    and #{keyword} is null or '' = #{keyword}
                 </otherwise>
 
             </choose>
         </where>
 
     </select>
-    <select id="getAllEmpIsNull" resultMap="BaseResultMap">
-        SELECT e.*,
-        p.`id` polsta_id,p.`name` polsta_name,
-        n.`id` nat_id,n.`name` nat_name,
-        d.`id` dep_id,d.`name` dep_name,
-        j.`id` job_id,j.`name` job_name,
-        pos.`id` posi_id,pos.`name` posi_name
-        FROM employee e
-        LEFT JOIN nation n ON e.nationId = n.id
-        LEFT JOIN politicsstatus p ON e.politicId = p.id
-        LEFT JOIN department d ON e.departmentId = d.id
-        LEFT JOIN joblevel j ON e.jobLevelId= j.id
-        LEFT JOIN POSITION pos  ON e.posId= pos.id
-        where limit #{page},#{size}
-    </select>
+
 
     <select id="list" resultMap="BaseResultMap">
     SELECT e.*,
@@ -108,9 +94,14 @@
         LEFT JOIN joblevel j ON e.jobLevelId= j.id
         LEFT JOIN POSITION pos  ON e.posId= pos.id
         <where>
-            <if test="emp.name !=null and emp.name!=''">
-                and e.name like concat('%',#{emp.name},'%')
-            </if>
+            <choose>
+                <when test="e.name != null and e.name != ''">
+                    and e.name like concat('%',#{e.name},'%')
+                </when>
+                <otherwise>
+                    and #{e.name} is null or '' = #{e.name}
+                </otherwise>
+            </choose>
             <if test="emp.politicId !=null">
                 and e.politicId =#{emp.politicid}
             </if>

@@ -38,25 +38,19 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     }
 
-    @Override
-    public List<Employee> getEmp(Integer page, Integer size, String keyword) {
-        PageHelper.startPage(page,size);
-        EmployeeExample example = new EmployeeExample();
-//        example.setOrderByClause("id desc");
-        if (!StringUtil.isEmpty(keyword)) {
-            example.createCriteria().andNameLike("%" + keyword + "%");
-        }
-        return employeeMapper.selectByExample(example);
-    }
 
     @Override
     public List<Employee> getAllEmp(int page, int size,String keyword) {
 
-        PageHelper.startPage(page,size);
+        PageHelper.startPage(page,size,"id");
 
         return  employeeDao.getAllEmp(page, size, keyword);
     }
 
+    @Override
+    public int delete(Integer id) {
+        return employeeMapper.deleteByPrimaryKey(id);
+    }
 
 
 }

@@ -20,14 +20,6 @@ public interface EmployeeService {
      */
     List<Employee> list(Integer page, Integer size,Employee employee);
 
-    /**
-     * 得到所有员工
-     * @param page
-     * @param size
-     * @param keyword
-     * @return
-     */
-    List<Employee> getEmp(Integer page, Integer size, String keyword);
 
     /**
      * 获取员工所有信息
@@ -36,4 +28,11 @@ public interface EmployeeService {
      * @return
      */
     List<Employee> getAllEmp(int page, int size,String keyword);
+
+    /**
+     * 根据id删除员工
+     * @param id
+     * @return
+     */
+    int delete(Integer id);
 }
