@@ -9,6 +9,13 @@
     <result column="enabled" jdbcType="BIT" property="enabled" />
     <result column="isParent" jdbcType="BIT" property="isparent" />
   </resultMap>
+  <resultMap id="DepartmentWithChildren" type="com.wg.pms.entity.Department" extends="BaseResultMap">
+    <collection property="children" ofType="com.wg.pms.entity.Department"
+                select="com.wg.pms.mapper.DepartmentMapper.getAllDepartmentsByParentId" column="id"/>
+  </resultMap>
+<select id="getAllDepartmentsByParentId" resultMap="DepartmentWithChildren">
+    select * from department where parentId=#{pid};
+  </select>
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">

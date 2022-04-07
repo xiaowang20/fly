@@ -24,6 +24,7 @@ public class MailSendLog implements Serializable {
 
     private Date createtime;
 
+
     private Date updatetime;
 
     private static final long serialVersionUID = 1L;

@@ -5,6 +5,9 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
   </resultMap>
+  <select id="getAllPoliticsStatus" resultMap="BaseResultMap">
+    select * from politicsstatus
+  </select>
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">

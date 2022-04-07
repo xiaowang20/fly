@@ -33,3 +33,8 @@
  - 还有就是要注意mybatis中xml文件使用<collection>时
 >   - ofType : 实体为List集合
 >   - javaType : 为实体
+### 添加员工、更新员工
+1. 添加成功后，记录mail日志，然后使用Rabbitmq消息中间件传送消息。
+2. 前端表单填写后更新。
+### Excel导入导出数据
+1. 导出

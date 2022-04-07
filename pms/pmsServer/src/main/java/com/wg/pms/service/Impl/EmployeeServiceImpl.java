@@ -8,17 +8,25 @@ import com.jn.sqlhelper.dialect.pagination.SqlPaginations;
 import com.wg.pms.common.RespPageBean;
 import com.wg.pms.dao.EmployeeDao;
 import com.wg.pms.entity.*;
+import com.wg.pms.entity.vo.EmployeeQueryParams;
+import com.wg.pms.entity.vo.MailConstants;
 import com.wg.pms.mapper.EmployeeMapper;
 import com.wg.pms.mapper.NationMapper;
 import com.wg.pms.service.EmployeeService;
+import com.wg.pms.service.MailSendLogService;
 import com.wg.pms.service.PoliticsStatusService;
+import org.springframework.amqp.rabbit.connection.CorrelationData;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -28,13 +36,26 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     EmployeeDao employeeDao;
     @Autowired
-    PoliticsStatusService politicsStatusService;
+    MailSendLogService mailSendLogService;
     @Autowired
-    NationMapper nationMapper;
-    @Override
-    public List<Employee> list(Integer page, Integer size,Employee employee) {
+    RabbitTemplate rabbitTemplate;
+    SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
+    SimpleDateFormat monthFormat = new SimpleDateFormat("MM");
+    DecimalFormat decimalFormat = new DecimalFormat("##.00");
 
-        return employeeDao.list(page, size,employee);
+    @Override
+    public List<Employee> list(int page, int size, EmployeeQueryParams queryParams) {
+        PageHelper.startPage(page,size,"workID DESC");
+        Employee employee = new Employee();
+        employee.setName(queryParams.getName());
+        employee.setJoblevelid(queryParams.getJobLevelId());
+        employee.setNationid(queryParams.getNationId());
+        employee.setEngageform(queryParams.getEngageForm());
+        employee.setPoliticid(queryParams.getPoliticId());
+        employee.setPosid(queryParams.getPositionId());
+        employee.setDepartmentid(queryParams.getDepartmentId());
+
+        return  employeeDao.list(page, size, employee);
 
     }
 
@@ -50,6 +71,43 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public int delete(Integer id) {
         return employeeMapper.deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public int add(Employee employee) {
+        //设置合同期限
+        Date beginContract = employee.getBegincontract();
+        Date endContract = employee.getEndcontract();
+        double month = (Double.parseDouble(yearFormat.format(endContract)) - Double.parseDouble(yearFormat.format(beginContract))) * 12 + (Double.parseDouble(monthFormat.format(endContract)) - Double.parseDouble(monthFormat.format(beginContract)));
+        employee.setContractterm(Double.parseDouble(decimalFormat.format(month / 12)));
+        int result = employeeMapper.insertSelective(employee);
+        if (result == 1) {
+            Employee emp = employeeDao.getByPrimaryKey(employee.getId());
+            //生成消息的唯一id
+            String msgId = UUID.randomUUID().toString();
+            MailSendLog mailSendLog = new MailSendLog();
+            mailSendLog.setMsgid(msgId);
+            mailSendLog.setCreatetime(new Date());
+            mailSendLog.setExchange(MailConstants.MAIL_EXCHANGE_NAME);
+            mailSendLog.setRoutekey(MailConstants.MAIL_ROUTING_KEY_NAME);
+            mailSendLog.setEmpid(emp.getId());
+            mailSendLog.setTrytime(new Date(System.currentTimeMillis() + 1000 * 60 * MailConstants.MSG_TIMEOUT));
+            mailSendLogService.insert(mailSendLog);
+            //使用Rabbitmq发送消息
+            rabbitTemplate.convertAndSend(MailConstants.MAIL_EXCHANGE_NAME, MailConstants.MAIL_ROUTING_KEY_NAME, emp, new CorrelationData(msgId));
+        }
+        return result;
+    }
+
+    @Override
+    public int update(Employee employee) {
+        //数据不为空
+        return employeeMapper.updateByPrimaryKeySelective(employee);
+    }
+
+    @Override
+    public Integer addEmps(List<Employee> employeeList) {
+        return employeeDao.addEmps(employeeList);
     }
 
 

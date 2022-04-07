@@ -3,6 +3,8 @@ package com.wg.pms.mapper;
 import com.wg.pms.entity.Joblevel;
 import com.wg.pms.entity.JoblevelExample;
 import java.util.List;
+
+import com.wg.pms.entity.Position;
 import org.apache.ibatis.annotations.Param;
 
 public interface JoblevelMapper {
@@ -27,4 +29,6 @@ public interface JoblevelMapper {
     int updateByPrimaryKeySelective(Joblevel record);
 
     int updateByPrimaryKey(Joblevel record);
+
+    List<Joblevel> getJobLevelsAll();
 }

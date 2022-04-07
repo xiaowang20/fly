@@ -22,4 +22,9 @@ public class PoliticsStatusServiceImpl implements PoliticsStatusService {
 
         return politicsstatusMapper.selectByExample(example);
     }
+
+    @Override
+    public List<Politicsstatus> getAllPoliticsStatus() {
+        return politicsstatusMapper.getAllPoliticsStatus();
+    }
 }

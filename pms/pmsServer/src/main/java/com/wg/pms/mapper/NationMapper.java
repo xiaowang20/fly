@@ -27,4 +27,5 @@ public interface NationMapper {
     int updateByPrimaryKeySelective(Nation record);
 
     int updateByPrimaryKey(Nation record);
+    List<Nation> getAllNations();
 }

@@ -9,11 +9,13 @@
         <outputRelativeToContentRoot value="true" />
         <module name="pms (1) (com.wg)" />
         <module name="pmsServer" />
+        <module name="mailServer" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="mailServer" options="-parameters" />
       <module name="pms (1) (com.wg)" options="-parameters" />
       <module name="pmsServer" options="-parameters" />
     </option>

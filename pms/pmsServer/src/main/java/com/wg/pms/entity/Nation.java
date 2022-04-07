@@ -2,11 +2,19 @@ package com.wg.pms.entity;
 
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
+import java.util.Objects;
 
 public class Nation implements Serializable {
     private Integer id;
 
     private String name;
+
+    public Nation(String name) {
+        this.name = name;
+    }
+
+    public Nation() {
+    }
 
     private static final long serialVersionUID = 1L;
 
@@ -38,4 +46,18 @@ public class Nation implements Serializable {
         sb.append("]");
         return sb.toString();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Nation nation = (Nation) o;
+        return name.equals(nation.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
+
 }

@@ -12,4 +12,11 @@ public interface PoliticsStatusService {
      * @return
      */
    List<Politicsstatus> list(Integer id);
+
+    /**
+     * 获取所有政治面貌
+     * @return
+     */
+    List<Politicsstatus> getAllPoliticsStatus();
+
 }

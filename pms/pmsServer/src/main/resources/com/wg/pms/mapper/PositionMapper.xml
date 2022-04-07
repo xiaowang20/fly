@@ -7,6 +7,9 @@
     <result column="createDate" jdbcType="TIMESTAMP" property="createdate" />
     <result column="enabled" jdbcType="BIT" property="enabled" />
   </resultMap>
+  <select id="getAllPositions" resultMap="BaseResultMap">
+    select * from position;
+  </select>
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">

@@ -8,6 +8,7 @@
     <result column="createDate" jdbcType="TIMESTAMP" property="createdate" />
     <result column="enabled" jdbcType="BIT" property="enabled" />
   </resultMap>
+
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -69,6 +70,9 @@
   <sql id="Base_Column_List">
     id, name, titleLevel, createDate, enabled
   </sql>
+  <select id="getJobLevelsAll" resultMap="BaseResultMap">
+    select * from joblevel;
+  </select>
   <select id="selectByExample" parameterType="com.wg.pms.entity.JoblevelExample" resultMap="BaseResultMap">
     select
     <if test="distinct">

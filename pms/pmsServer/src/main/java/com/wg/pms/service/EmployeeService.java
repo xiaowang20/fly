@@ -2,6 +2,7 @@ package com.wg.pms.service;
 
 import com.wg.pms.common.RespPageBean;
 import com.wg.pms.entity.Employee;
+import com.wg.pms.entity.vo.EmployeeQueryParams;
 
 import java.util.Date;
 import java.util.List;
@@ -18,7 +19,7 @@ public interface EmployeeService {
      * @param size
      * @return
      */
-    List<Employee> list(Integer page, Integer size,Employee employee);
+    List<Employee> list(int page, int size, EmployeeQueryParams queryParams);
 
 
     /**
@@ -35,4 +36,25 @@ public interface EmployeeService {
      * @return
      */
     int delete(Integer id);
+
+    /**
+     * 添加员工
+     * @param employee
+     * @return
+     */
+    int add(Employee employee);
+
+    /**
+     * 更新员工
+     * @param employee
+     * @return
+     */
+    int update(Employee employee);
+
+    /**
+     * 根据所有的员工信息列表添加
+     * @param employeeList
+     * @return
+     */
+    Integer addEmps(List<Employee> employeeList);
 }

@@ -3,6 +3,7 @@ package com.wg.pms.entity;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
 public class Joblevel implements Serializable {
     private Integer id;
@@ -15,6 +16,26 @@ public class Joblevel implements Serializable {
     private Date createdate;
 
     private Boolean enabled;
+
+    public Joblevel() {
+    }
+
+    public Joblevel(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Joblevel joblevel = (Joblevel) o;
+        return name.equals(joblevel.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
 
     private static final long serialVersionUID = 1L;
 
