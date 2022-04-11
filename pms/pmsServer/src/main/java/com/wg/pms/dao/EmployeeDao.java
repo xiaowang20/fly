@@ -18,7 +18,7 @@ public interface EmployeeDao {
      * @param size
      * @return
      */
-    List<Employee> list(@Param("page") int page, @Param("size") int size,Employee queryParams);
+    List<Employee> list(@Param("page") int page, @Param("size") int size,@Param("emp") Employee queryParams);
 
     /**
      * 获取员工所有信息
@@ -26,7 +26,7 @@ public interface EmployeeDao {
      * @param size
      * @return
      */
-    List<Employee> getAllEmp(@Param("page") int page,@Param("size") int size,@Param("keyword") String keyword);
+    List<Employee> getAllEmp(@Param("page") Integer page,@Param("size") Integer size,@Param("keyword") String keyword);
 
     /**
      * 通过员工id获取所有信息

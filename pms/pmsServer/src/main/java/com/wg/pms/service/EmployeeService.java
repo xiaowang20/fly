@@ -28,7 +28,7 @@ public interface EmployeeService {
      * @param size
      * @return
      */
-    List<Employee> getAllEmp(int page, int size,String keyword);
+    List<Employee> getAllEmp(Integer page, Integer size,String keyword);
 
     /**
      * 根据id删除员工

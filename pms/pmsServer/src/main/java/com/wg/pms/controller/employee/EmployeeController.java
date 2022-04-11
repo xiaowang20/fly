@@ -8,10 +8,12 @@ import com.wg.pms.entity.Employee;
 import com.wg.pms.entity.vo.EmployeeQueryParams;
 import com.wg.pms.service.EmployeeService;
 import com.wg.pms.service.PoliticsStatusService;
+import com.wg.pms.util.POIUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
@@ -23,7 +25,7 @@ import java.util.*;
 @RestController
 @RequestMapping("/Emp")
 @Api(tags = "员工详情")
-@CrossOrigin
+
 public class EmployeeController {
 
     @Autowired
@@ -33,21 +35,20 @@ public class EmployeeController {
 
 
     @ApiOperation("分页条件查询员工详情")
-    @PostMapping(value = "/listPageQuery",produces = "application/json")
+    @PostMapping(value = "/listPageQuery")
     public CommonResult<CommonPage<Employee>> list(@RequestParam(value = "pageNum",defaultValue = "1") int page,
                                                    @RequestParam(value = "pageSize",defaultValue = "10") int size,
-                                                   @RequestBody EmployeeQueryParams queryParams
+                                                   EmployeeQueryParams queryParams
                                                    ){
 
         List<Employee> employeeList =  employeeService.list(page,size,queryParams);
         System.out.println("条件查询标记一下");
-        System.out.println(employeeList);
         return CommonResult.success(CommonPage.restPage(employeeList));
     }
     @ApiOperation("获取员工所有信息")
     @GetMapping("/getAllEmp")
-    public CommonResult<CommonPage<Employee>> getAllEmp(@RequestParam(value = "pageNum",defaultValue = "1") int page,
-                                                        @RequestParam(value = "pageSize",defaultValue = "10") int size,
+    public CommonResult<CommonPage<Employee>> getAllEmp(@RequestParam(value = "pageNum",defaultValue = "1") Integer page,
+                                                        @RequestParam(value = "pageSize",defaultValue = "10") Integer size,
                                                         @RequestParam(value = "keyword",required = false) String keyword
                                                         ){
 

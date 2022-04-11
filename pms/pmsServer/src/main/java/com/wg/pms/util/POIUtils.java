@@ -1,20 +1,24 @@
 package com.wg.pms.util;
+import cn.hutool.http.HttpResponse;
+import com.alibaba.druid.sql.visitor.functions.Char;
 import org.apache.poi.hpsf.DocumentSummaryInformation;
 import org.apache.poi.hpsf.SummaryInformation;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import com.wg.pms.entity.*;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @作者 江南一点雨
@@ -41,17 +45,17 @@ public class POIUtils {
         //文档类别
         docInfo.setCategory("员工信息");
         //文档管理员
-        docInfo.setManager("javaboy");
+        docInfo.setManager("wg");
         //设置公司信息
-        docInfo.setCompany("www.javaboy.org");
+        docInfo.setCompany("www.wg.com");
         //4. 获取文档摘要信息
         SummaryInformation summInfo = workbook.getSummaryInformation();
         //文档标题
         summInfo.setTitle("员工信息表");
         //文档作者
-        summInfo.setAuthor("javaboy");
+        summInfo.setAuthor("wg");
         // 文档备注
-        summInfo.setComments("本文档由 javaboy 提供");
+        summInfo.setComments("本文档由 wg 提供");
         //5. 创建样式
         //创建标题行的样式
         HSSFCellStyle headerStyle = workbook.createCellStyle();
@@ -86,6 +90,7 @@ public class POIUtils {
         sheet.setColumnWidth(22, 14 * 256);
         sheet.setColumnWidth(23, 15 * 256);
         sheet.setColumnWidth(24, 15 * 256);
+        sheet.setColumnWidth(25, 15 * 256);
         //6. 创建标题行
         HSSFRow r0 = sheet.createRow(0);
         HSSFCell c0 = r0.createCell(0);
@@ -163,6 +168,9 @@ public class POIUtils {
         HSSFCell c24 = r0.createCell(24);
         c24.setCellStyle(headerStyle);
         c24.setCellValue("合同终止日期");
+        HSSFCell c25 = r0.createCell(25);
+        c25.setCellStyle(headerStyle);
+        c25.setCellValue("转正日期");
         for (int i = 0; i < list.size(); i++) {
             Employee emp = list.get(i);
             HSSFRow row = sheet.createRow(i + 1);
@@ -170,6 +178,7 @@ public class POIUtils {
             row.createCell(1).setCellValue(emp.getName());
             row.createCell(2).setCellValue(emp.getWorkid());
             row.createCell(3).setCellValue(emp.getGender());
+            //日期格式
             HSSFCell cell4 = row.createCell(4);
             cell4.setCellStyle(dateCellStyle);
             cell4.setCellValue(emp.getBirthday());
@@ -206,14 +215,18 @@ public class POIUtils {
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         HttpHeaders headers = new HttpHeaders();
+
+        final String fileName = "员工表.xls";
+
         try {
-            headers.setContentDispositionFormData("attachment", new String("员工表.xls".getBytes("UTF-8"), "ISO-8859-1"));
             headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+            headers.setContentDispositionFormData("attachment",
+                    new String(fileName.getBytes(StandardCharsets.UTF_8.toString()),StandardCharsets.ISO_8859_1.toString()));
             workbook.write(baos);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return new ResponseEntity<byte[]>(baos.toByteArray(), headers, HttpStatus.CREATED);
+        return new ResponseEntity<byte[]>(baos.toByteArray(), headers,HttpStatus.CREATED);
     }
 
     /**
@@ -256,6 +269,7 @@ public class POIUtils {
                     for (int k = 0; k < physicalNumberOfCells; k++) {
                         HSSFCell cell = row.getCell(k);
                         switch (cell.getCellType()) {
+                            //字符串
                             case STRING:
                                 String cellValue = cell.getStringCellValue();
                                 switch (k) {
@@ -323,6 +337,7 @@ public class POIUtils {
                                         break;
                                 }
                                 break;
+                            //其他格式（日期格式）
                             default: {
                                 switch (k) {
                                     case 4:
@@ -331,14 +346,14 @@ public class POIUtils {
                                     case 19:
                                         employee.setBegindate(cell.getDateCellValue());
                                         break;
+                                    case 22:
+                                        employee.setContractterm(cell.getNumericCellValue());
+                                        break;
                                     case 23:
                                         employee.setBegincontract(cell.getDateCellValue());
                                         break;
                                     case 24:
                                         employee.setEndcontract(cell.getDateCellValue());
-                                        break;
-                                    case 22:
-                                        employee.setContractterm(cell.getNumericCellValue());
                                         break;
                                     case 25:
                                         employee.setConversiontime(cell.getDateCellValue());

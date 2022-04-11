@@ -47,6 +47,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public List<Employee> list(int page, int size, EmployeeQueryParams queryParams) {
         PageHelper.startPage(page,size,"workID DESC");
         Employee employee = new Employee();
+
         employee.setName(queryParams.getName());
         employee.setJoblevelid(queryParams.getJobLevelId());
         employee.setNationid(queryParams.getNationId());
@@ -61,7 +62,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 
     @Override
-    public List<Employee> getAllEmp(int page, int size,String keyword) {
+    public List<Employee> getAllEmp(Integer page, Integer size,String keyword) {
 
         PageHelper.startPage(page,size,"id");
 
@@ -70,6 +71,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public int delete(Integer id) {
+
         return employeeMapper.deleteByPrimaryKey(id);
     }
 
