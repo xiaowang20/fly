@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@Api(tags = "用户管理")
+@Api(tags = "登录操作")
 @RestController
 @RequestMapping("/admin")
 @CrossOrigin

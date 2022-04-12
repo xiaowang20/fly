@@ -5,6 +5,7 @@ import com.wg.pms.common.CommonPage;
 import com.wg.pms.common.CommonResult;
 import com.wg.pms.common.ResponseResult;
 import com.wg.pms.entity.Employee;
+import com.wg.pms.entity.dto.EmployeeParams;
 import com.wg.pms.entity.vo.EmployeeQueryParams;
 import com.wg.pms.service.EmployeeService;
 import com.wg.pms.service.PoliticsStatusService;
@@ -12,6 +13,7 @@ import com.wg.pms.util.POIUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -70,18 +72,29 @@ public class EmployeeController {
 
     @ApiOperation("添加员工")
     @PostMapping("/add")
-    public CommonResult addEmp(@RequestBody Employee employee){
-       if (employeeService.add(employee) == 1){
+    public CommonResult addEmp(@RequestBody EmployeeParams employeeParams){
+       if (employeeService.add(employeeParams) == 1){
            return CommonResult.success(ResponseResult.ADD_SUCCESS.getMessage());
        }else {
            return CommonResult.failed(ResponseResult.ADD_FAILED.getMessage());
        }
     }
 
-    @ApiOperation("更新员工")
-    @PutMapping("/update")
-    public CommonResult update(@RequestBody Employee employee){
-        if (employeeService.update(employee) == 1){
+    @ApiOperation("根据编号获取员工信息")
+    @GetMapping("/getAllById/{id}")
+    public CommonResult getAllById(@PathVariable("id") Integer id){
+       Employee employee = employeeService.getAllById(id);
+        if (employee!=null){
+            return CommonResult.success(employee);
+        }else {
+            return CommonResult.failed(ResponseResult.SELECT_FAILED.getMessage());
+        }
+    }
+
+    @ApiOperation("根据编号更新员工")
+    @PutMapping("/update/{id}")
+    public CommonResult update(@PathVariable("id") Integer id, @RequestBody EmployeeParams employeeParams){
+        if (employeeService.update(id,employeeParams) == 1){
             return CommonResult.success(ResponseResult.UPDATE_SUCCESS.getMessage());
         }else {
             return CommonResult.success(ResponseResult.UPDATE_FAILED.getMessage());

@@ -14,7 +14,8 @@ public enum ResponseResult {
     UPDATE_SUCCESS(104,"更新成功"),
     UPDATE_FAILED(105,"更新失败"),
     UPLOAD_SUCCESS(106,"上传成功"),
-    UPLOAD_FAILED(107,"上传失败");
+    UPLOAD_FAILED(107,"上传失败"),
+    SELECT_FAILED(108,"查询失败");
     private long status;
     private String message;
 
