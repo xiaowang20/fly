@@ -10,7 +10,7 @@ public interface HrMapper {
 
     int deleteByExample(HrExample example);
 
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(Hr record);
 
@@ -27,4 +27,5 @@ public interface HrMapper {
     int updateByPrimaryKeySelective(Hr record);
 
     int updateByPrimaryKey(Hr record);
+    Hr selectByKey(Long id);
 }

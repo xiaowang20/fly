@@ -94,9 +94,15 @@
     from hr
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <select id="selectByKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    *
+    from hr
+    where id = #{id}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from hr
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id}
   </delete>
   <delete id="deleteByExample" parameterType="com.wg.pms.entity.HrExample">
     delete from hr
@@ -105,7 +111,8 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.wg.pms.entity.Hr">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into hr (name, phone, telephone, 
@@ -117,6 +124,7 @@
       #{password,jdbcType=VARCHAR}, #{userface,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
       )
   </insert>
+
   <insert id="insertSelective" parameterType="com.wg.pms.entity.Hr">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()

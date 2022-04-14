@@ -1,5 +1,6 @@
 package com.wg.pms.service;
 
+import com.wg.pms.entity.Hr;
 import com.wg.pms.entity.Menu;
 import com.wg.pms.entity.Role;
 
@@ -16,4 +17,41 @@ public interface RoleService {
      * 获取用户对应角色
      */
     List<Role> getRoleList(Long adminId);
+
+    /**
+     * 条件分页查询role
+     * @param page
+     * @param size
+     * @param keyword
+     * @return
+     */
+    List<Role> list(Integer page, Integer size, String keyword);
+
+    /**
+     * 获取所有角色信息
+     * @return
+     */
+    List<Role> listAll();
+
+    /**
+     * 添加角色
+     * @return
+     */
+    int add( Role role);
+
+    /**
+     * 根据RoleId更新角色
+     * @param id
+     * @param role
+     * @return
+     */
+    int update(Integer id, Role role);
+
+    /**
+     *
+     * @param roleIds
+     * @return
+     */
+    int delete(List<Integer> roleIds);
+
 }

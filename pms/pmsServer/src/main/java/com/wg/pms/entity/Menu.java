@@ -14,13 +14,13 @@ public class Menu implements Serializable {
 
     private String name;
 
-    private String iconCls;
+    private String iconcls;
 
-    private Boolean keepalive;
+    private Boolean keepAlive;
 
-    private Boolean requireAuth;
+    private Boolean requireauth;
 
-    private Integer parentId;
+    private Integer parentid;
 
     private Boolean enabled;
 
@@ -67,35 +67,35 @@ public class Menu implements Serializable {
     }
 
     public String getIconCls() {
-        return iconCls;
+        return iconcls;
     }
 
     public void setIconCls(String iconCls) {
-        this.iconCls = iconCls;
+        this.iconcls = iconCls;
     }
 
     public Boolean getKeepalive() {
-        return keepalive;
+        return keepAlive;
     }
 
     public void setKeepalive(Boolean keepalive) {
-        this.keepalive = keepalive;
+        this.keepAlive = keepalive;
     }
 
     public Boolean getRequireAuth() {
-        return requireAuth;
+        return requireauth;
     }
 
     public void setRequireAuth(Boolean requireAuth) {
-        this.requireAuth = requireAuth;
+        this.requireauth = requireAuth;
     }
 
     public Integer getParentId() {
-        return parentId;
+        return parentid;
     }
 
     public void setParentId(Integer parentId) {
-        this.parentId = parentId;
+        this.parentid = parentId;
     }
 
     public Boolean getEnabled() {
@@ -118,10 +118,10 @@ public class Menu implements Serializable {
                 ", path='" + path + '\'' +
                 ", component='" + component + '\'' +
                 ", name='" + name + '\'' +
-                ", iconCls='" + iconCls + '\'' +
-                ", keepalive=" + keepalive +
-                ", requireAuth=" + requireAuth +
-                ", parentId=" + parentId +
+                ", iconCls='" + iconcls + '\'' +
+                ", keepalive=" + keepAlive +
+                ", requireAuth=" + requireauth +
+                ", parentId=" + parentid +
                 ", enabled=" + enabled +
                 '}';
     }

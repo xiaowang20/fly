@@ -54,7 +54,7 @@ public class HrController {
     }
     @ApiOperation(value = "用户注册")
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public CommonResult<Hr> register(@RequestBody Hr adminParam, BindingResult result) {
+    public CommonResult<Hr> register(@RequestBody Hr adminParam) {
         Hr admin = hrService.register(adminParam);
         if (admin == null) {
             CommonResult.failed("注册失败");

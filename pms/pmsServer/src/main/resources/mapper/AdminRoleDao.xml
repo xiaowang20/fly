@@ -9,4 +9,11 @@
     <select id="getRoleList" resultMap="BaseResultMap">
         select r.* from hr_role hrr left join role r on hrr.rid = r.id where hrr.hrid = #{adminId}
     </select>
+    <insert id="insertList">
+        INSERT INTO hr_role (hrid, rid) VALUES
+        <foreach collection="list" separator="," item="item" index="index">
+            (#{item.hrid},
+            #{item.rid})
+        </foreach>
+    </insert>
 </mapper>

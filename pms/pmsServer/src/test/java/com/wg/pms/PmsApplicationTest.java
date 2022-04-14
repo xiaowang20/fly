@@ -8,6 +8,7 @@ import com.wg.pms.entity.Employee;
 import com.wg.pms.entity.Nation;
 import com.wg.pms.entity.vo.EmployeeQueryParams;
 import com.wg.pms.mapper.DepartmentMapper;
+import com.wg.pms.mapper.RoleMapper;
 import com.wg.pms.service.DepartmentService;
 import com.wg.pms.service.EmployeeService;
 import com.wg.pms.service.NationService;
@@ -37,6 +38,19 @@ public class PmsApplicationTest {
     NationService nationService;
     @Autowired
     DepartmentMapper departmentMapper;
+    @Autowired
+    RoleMapper roleMapper;
+    @Test
+    public void test5(){
+        List<Integer> list = new ArrayList<>();
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        list.add(4);
+        for (Integer integer : list) {
+            System.out.println(integer);
+        }
+    }
 
     @Test
     public void test4(){

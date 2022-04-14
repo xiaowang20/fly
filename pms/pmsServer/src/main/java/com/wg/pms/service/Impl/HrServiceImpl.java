@@ -1,11 +1,15 @@
 package com.wg.pms.service.Impl;
 
+import cn.hutool.core.util.StrUtil;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.util.StringUtil;
 import com.wg.pms.common.CommonResult;
 import com.wg.pms.dao.AdminRole;
-import com.wg.pms.entity.Hr;
-import com.wg.pms.entity.HrExample;
-import com.wg.pms.entity.Menu;
+import com.wg.pms.dao.AdminRoleDao;
+import com.wg.pms.dao.RoleDao;
+import com.wg.pms.entity.*;
 import com.wg.pms.mapper.HrMapper;
+import com.wg.pms.mapper.HrRoleMapper;
 import com.wg.pms.mapper.MenuMapper;
 import com.wg.pms.service.HrService;
 import com.wg.pms.util.JwtTokenUtil;
@@ -21,8 +25,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class HrServiceImpl implements HrService {
@@ -38,6 +45,12 @@ public class HrServiceImpl implements HrService {
     MenuMapper menuMapper;
    @Autowired
    AdminRole adminRole;
+   @Autowired
+    RoleDao roleDao;
+   @Autowired
+    AdminRoleDao adminRoleDao;
+   @Autowired
+    HrRoleMapper hrRoleMapper;
     @Autowired
     private UserDetailsService userDetailsService;
     @Autowired
@@ -70,6 +83,9 @@ public class HrServiceImpl implements HrService {
             if (!passwordEncoder.matches(password, userDetails.getPassword())) {
                 throw new BadCredentialsException("密码不正确");
             }
+//            if(!userDetails.isEnabled()){
+//               throw new
+//            }
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
             token = jwtTokenUtil.generateTokenByUsername(userDetails);
@@ -100,4 +116,75 @@ public class HrServiceImpl implements HrService {
        }
         return admin;
     }
+
+    @Override
+    public List<Hr> list(Integer page,Integer size,String keyword) {
+        PageHelper.startPage(page,size);
+        HrExample hrExample = new HrExample();
+        if (StringUtil.isNotEmpty(keyword)){
+            hrExample.createCriteria().andUsernameLike("%"+keyword+"%");
+            hrExample.or(hrExample.createCriteria().andNameLike("%"+keyword+"%"));
+        }
+        List<Hr> list = hrMapper.selectByExample(hrExample);
+        //使用流，关键 Boolean.FALSE
+//        List<Hr> list1 = hrMapper.selectByExample(new HrExample());
+//        List<Hr> collect = list1.stream()
+//                .filter(a -> Boolean.FALSE ? a.getUsername().equals(keyword) : a.getUsername().contains(keyword))
+//                .filter(a->Boolean.FALSE?a.getName().equals(keyword):a.getName().contains(keyword))
+//                .collect(Collectors.toList());
+
+        return list;
+    }
+
+    @Override
+    public int updateStatus(Long id, Hr hr) {
+        hr.setId(id);
+        Hr rawAdmin = hrMapper.selectByKey(id);
+        if(rawAdmin.getPassword().equals(hr.getPassword())){
+            //与原加密密码相同的不需要修改
+            hr.setPassword(null);
+        }else{
+            //与原加密密码不同的需要加密修改
+            if(StrUtil.isEmpty(hr.getPassword())){
+                hr.setPassword(null);
+            }else{
+                hr.setPassword(passwordEncoder.encode(hr.getPassword()));
+            }
+        }
+        int count = hrMapper.updateByPrimaryKeySelective(hr);
+        return count;
+    }
+
+    @Override
+    public int delete(Long id) {
+        return hrMapper.deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public List<Role> getRoleList(Long adminId) {
+        return adminRoleDao.getRoleList(adminId);
+    }
+
+    @Override
+    public int updateRole(Integer adminId, List<Integer> roleIds) {
+
+        int count = roleIds == null ? 0 : roleIds.size();
+        //先删除原来的关系
+        HrRoleExample adminRoleRelationExample = new HrRoleExample();
+        adminRoleRelationExample.createCriteria().andHridEqualTo(adminId);
+        hrRoleMapper.deleteByExample(adminRoleRelationExample);
+        //建立新关系
+        if (!CollectionUtils.isEmpty(roleIds)) {
+            List<HrRole> list = new ArrayList<>();
+            for (Integer roleId : roleIds) {
+                HrRole roleRelation = new HrRole();
+                roleRelation.setHrid(adminId);
+                roleRelation.setRid(roleId);
+                list.add(roleRelation);
+            }
+            adminRoleDao.insertList(list);
+        }
+        return count;
+    }
+
 }
