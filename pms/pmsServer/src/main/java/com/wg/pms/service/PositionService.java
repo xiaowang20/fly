@@ -14,4 +14,25 @@ public interface PositionService {
      */
     List<Position> getAllPositions();
 
+    /**
+     * 添加职位
+     * @param position
+     * @return
+     */
+    int add(Position position);
+
+    /**
+     * 根据id修改职位
+     * @param id
+     * @param position
+     * @return
+     */
+    int update(Integer id, Position position);
+
+    /**
+     * 根据id删除职位信息
+     * @param id
+     * @return
+     */
+    int delete(Integer id);
 }

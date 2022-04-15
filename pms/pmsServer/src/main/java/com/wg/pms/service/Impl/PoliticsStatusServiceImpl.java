@@ -27,4 +27,23 @@ public class PoliticsStatusServiceImpl implements PoliticsStatusService {
     public List<Politicsstatus> getAllPoliticsStatus() {
         return politicsstatusMapper.getAllPoliticsStatus();
     }
+
+    @Override
+    public int add(Politicsstatus politicsstatus) {
+
+        return politicsstatusMapper.insert(politicsstatus);
+    }
+
+    @Override
+    public int update(Integer id, Politicsstatus politicsstatus) {
+
+        politicsstatus.setId(id);
+        return politicsstatusMapper.updateByPrimaryKeySelective(politicsstatus);
+    }
+
+    @Override
+    public int delete(Integer id) {
+
+        return politicsstatusMapper.deleteByPrimaryKey(id);
+    }
 }

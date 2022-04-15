@@ -2,6 +2,7 @@ package com.wg.pms;
 
 import com.wg.pms.common.CommonPage;
 import com.wg.pms.dao.EmployeeDao;
+import com.wg.pms.dao.MenuDao;
 import com.wg.pms.entity.Department;
 import com.wg.pms.entity.DepartmentExample;
 import com.wg.pms.entity.Employee;
@@ -11,6 +12,7 @@ import com.wg.pms.mapper.DepartmentMapper;
 import com.wg.pms.mapper.RoleMapper;
 import com.wg.pms.service.DepartmentService;
 import com.wg.pms.service.EmployeeService;
+import com.wg.pms.service.MenuService;
 import com.wg.pms.service.NationService;
 import io.swagger.models.auth.In;
 import org.junit.jupiter.api.Test;
@@ -40,6 +42,24 @@ public class PmsApplicationTest {
     DepartmentMapper departmentMapper;
     @Autowired
     RoleMapper roleMapper;
+    @Autowired
+    MenuService menuService;
+    @Autowired
+    MenuDao menuDao;
+
+    @Test
+    public void test2Menu(){
+        System.out.println(menuDao.getAllMenusByRoleId(22));
+    }
+
+    @Test
+    public void testMenu(){
+        System.out.println(menuDao.getAllMenuWithOutChildren());
+    }
+    @Test
+    public void test1Menu(){
+        System.out.println(menuDao.getAllMenus());
+    }
     @Test
     public void test5(){
         List<Integer> list = new ArrayList<>();

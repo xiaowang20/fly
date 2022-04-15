@@ -19,4 +19,25 @@ public interface PoliticsStatusService {
      */
     List<Politicsstatus> getAllPoliticsStatus();
 
+    /**
+     * 添加政治面貌
+     * @param politicsstatus
+     * @return
+     */
+    int add(Politicsstatus politicsstatus);
+
+    /**
+     * 根据id修改政治面貌
+     * @param id
+     * @param politicsstatus
+     * @return
+     */
+    int update(Integer id, Politicsstatus politicsstatus);
+
+    /**
+     * 根据id删除政治面貌信息
+     * @param id
+     * @return
+     */
+    int delete(Integer id);
 }

@@ -1,5 +1,6 @@
 package com.wg.pms.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.util.Date;
@@ -29,6 +30,7 @@ public class Salary implements Serializable {
     private Float pensionper;
 
     @ApiModelProperty(value = "启用时间")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date createdate;
 
     @ApiModelProperty(value = "医疗基数")

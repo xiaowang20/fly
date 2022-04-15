@@ -17,4 +17,23 @@ public class PositionServiceImpl implements PositionService {
     public List<Position> getAllPositions() {
         return positionMapper.getAllPositions();
     }
+
+    @Override
+    public int add(Position position) {
+
+        return positionMapper.insert(position);
+    }
+
+    @Override
+    public int update(Integer id, Position position) {
+
+        position.setId(id);
+        return positionMapper.updateByPrimaryKeySelective(position);
+    }
+
+    @Override
+    public int delete(Integer id) {
+
+        return positionMapper.deleteByPrimaryKey(id);
+    }
 }

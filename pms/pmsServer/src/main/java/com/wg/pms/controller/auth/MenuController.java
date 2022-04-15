@@ -5,9 +5,11 @@ import com.wg.pms.common.CommonResult;
 import com.wg.pms.common.ResponseResult;
 import com.wg.pms.entity.Hr;
 import com.wg.pms.entity.Menu;
+import com.wg.pms.entity.dto.MenuNode;
 import com.wg.pms.service.MenuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -91,6 +93,44 @@ public class MenuController {
         Menu menu = menuService.getMenuById(id);
         if (menu!=null){
             return CommonResult.success(menu);
+        }
+        return CommonResult.failed(ResponseResult.SELECT_FAILED.getMessage());
+    }
+    @ApiOperation("根据id删除菜单")
+    @DeleteMapping("delete/{id}")
+    public CommonResult delete(@PathVariable Integer id){
+       int count = menuService.delete(id);
+       if (count>0){
+           return CommonResult.success(ResponseResult.DELETE_SUCCESS.getMessage());
+       }
+       return CommonResult.failed(ResponseResult.DELETE_FAILED.getMessage());
+    }
+
+//    @ApiOperation("树形结构查询菜单")
+//    @GetMapping("tree/list")
+//    public CommonResult getTreeList(){
+//       List<MenuNode> list = menuService.treeList();
+//       if (list!=null){
+//           return CommonResult.success(list);
+//       }
+//       return CommonResult.failed(ResponseResult.SELECT_FAILED.getMessage());
+//    }
+
+    @ApiOperation("错误树形结构查询菜单1")
+    @GetMapping("tree1/list")
+    public CommonResult getTree1List(){
+        List<MenuNode> list = menuService.tree1List();
+        if (list!=null){
+            return CommonResult.success(list);
+        }
+        return CommonResult.failed(ResponseResult.SELECT_FAILED.getMessage());
+    }
+    @ApiOperation("使用mybatis构造树形结构查询菜单2")
+    @GetMapping("tree2/list")
+    public CommonResult getTree2List(){
+        List<MenuNode> list = menuService.tree2List();
+        if (list!=null){
+            return CommonResult.success(list);
         }
         return CommonResult.failed(ResponseResult.SELECT_FAILED.getMessage());
     }

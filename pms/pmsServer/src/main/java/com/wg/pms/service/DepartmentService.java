@@ -25,4 +25,26 @@ public interface DepartmentService {
      *
      */
     List<Department> selectAll(DepartmentExample departmentExample);
+
+    /**
+     * 添加部门
+     * @param department
+     * @return
+     */
+    int add(Department department);
+
+    /**
+     * 根据id修改部门信息
+     * @param id
+     * @param department
+     * @return
+     */
+    int update(Integer id, Department department);
+
+    /**
+     * 根据id删除部门信息
+     * @param id
+     * @return
+     */
+    int delete(Integer id);
 }

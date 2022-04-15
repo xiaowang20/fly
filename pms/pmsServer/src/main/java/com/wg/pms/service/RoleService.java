@@ -3,6 +3,7 @@ package com.wg.pms.service;
 import com.wg.pms.entity.Hr;
 import com.wg.pms.entity.Menu;
 import com.wg.pms.entity.Role;
+import com.wg.pms.entity.dto.MenuNode;
 
 import java.util.List;
 
@@ -54,4 +55,18 @@ public interface RoleService {
      */
     int delete(List<Integer> roleIds);
 
+    /**
+     * 给角色分配菜单
+     * @param roleId
+     * @param menuIds
+     * @return
+     */
+    int allocMenu(Integer roleId, List<Integer> menuIds);
+
+    /**
+     * 根据roleId获取菜单信息
+     * @param roleId
+     * @return
+     */
+    List<MenuNode> getMenuByRoleId(Integer roleId);
 }

@@ -37,6 +37,26 @@ public class DepartmentServiceImpl implements DepartmentService {
         return departmentMapper.selectByExample(departmentExample);
     }
 
+    @Override
+    public int add(Department department) {
+
+        return departmentMapper.insert(department);
+    }
+
+    @Override
+    public int update(Integer id, Department department) {
+
+        department.setId(id);
+        int i = departmentMapper.updateByPrimaryKeySelective(department);
+        return i;
+    }
+
+    @Override
+    public int delete(Integer id) {
+
+        return departmentMapper.deleteByPrimaryKey(id);
+    }
+
     private Department covertMenuNode(Department department, List<Department> departmentListParent) {
         Department node = new Department();
         BeanUtils.copyProperties(department, node);

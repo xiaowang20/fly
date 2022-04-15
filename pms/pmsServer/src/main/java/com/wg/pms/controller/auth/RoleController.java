@@ -5,6 +5,7 @@ import com.wg.pms.common.CommonResult;
 import com.wg.pms.common.ResponseResult;
 import com.wg.pms.entity.Hr;
 import com.wg.pms.entity.Role;
+import com.wg.pms.entity.dto.MenuNode;
 import com.wg.pms.service.RoleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -68,5 +69,25 @@ public class RoleController {
             return CommonResult.success(ResponseResult.DELETE_SUCCESS.getMessage());
         }
         return CommonResult.failed(ResponseResult.DELETE_FAILED.getMessage());
+    }
+
+    @ApiOperation("根据roleId获取菜单信息")
+    @GetMapping("getMenuByRoleId/{roleId}")
+    public CommonResult getMenuByRoleId(@PathVariable Integer roleId){
+       List<MenuNode> list = roleService.getMenuByRoleId(roleId);
+       if (list!=null){
+           return CommonResult.success(list);
+       }
+       return CommonResult.failed(ResponseResult.SELECT_FAILED);
+    }
+
+    @ApiOperation("给角色分配菜单")
+    @PostMapping("allocMenu")
+    public CommonResult allocMenu(@RequestParam("roleId") Integer roleId,@RequestParam List<Integer> menuIds){
+       int count = roleService.allocMenu(roleId,menuIds);
+       if (count>0){
+           return CommonResult.success(ResponseResult.UPDATE_SUCCESS.getMessage());
+       }
+       return CommonResult.failed(ResponseResult.UPDATE_FAILED.getMessage());
     }
 }

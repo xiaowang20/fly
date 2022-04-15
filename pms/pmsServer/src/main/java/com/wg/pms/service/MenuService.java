@@ -1,6 +1,7 @@
 package com.wg.pms.service;
 
 import com.wg.pms.entity.Menu;
+import com.wg.pms.entity.dto.MenuNode;
 
 import java.util.List;
 
@@ -62,4 +63,21 @@ public interface MenuService {
      * @return
      */
     Menu getMenuById(Integer id);
+
+    /**
+     * 根据id删除菜单
+     * @param id
+     * @return
+     */
+    int delete(Integer id);
+
+    /**
+     * 树形结构查询菜单
+     * @return
+     */
+//    List<MenuNode> treeList();
+
+    List<MenuNode> tree1List();
+
+    List<MenuNode> tree2List();
 }

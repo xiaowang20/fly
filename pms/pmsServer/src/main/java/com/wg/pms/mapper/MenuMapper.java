@@ -3,6 +3,8 @@ package com.wg.pms.mapper;
 import com.wg.pms.entity.Menu;
 import com.wg.pms.entity.MenuExample;
 import java.util.List;
+
+import com.wg.pms.entity.dto.MenuNode;
 import org.apache.ibatis.annotations.Param;
 
 public interface MenuMapper {
@@ -27,4 +29,5 @@ public interface MenuMapper {
     int updateByPrimaryKeySelective(Menu record);
 
     int updateByPrimaryKey(Menu record);
+
 }

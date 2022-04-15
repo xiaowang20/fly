@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wg.pms.dao.MenuDao">
+    <resultMap id="BaseResultMap" type="com.wg.pms.entity.dto.MenuNode">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="url" jdbcType="VARCHAR" property="url" />
+        <result column="path" jdbcType="VARCHAR" property="path" />
+        <result column="component" jdbcType="VARCHAR" property="component" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="iconCls" jdbcType="VARCHAR" property="iconCls" />
+        <result column="keepAlive" jdbcType="BIT" property="keepAlive" />
+        <result column="requireAuth" jdbcType="BIT" property="requireAuth" />
+        <result column="parentId" jdbcType="INTEGER" property="parentId" />
+        <result column="enabled" jdbcType="BIT" property="enabled" />
+        <collection property="children" ofType="com.wg.pms.entity.dto.MenuNode">
+            <id column="id" jdbcType="INTEGER" property="id" />
+            <result column="url" jdbcType="VARCHAR" property="url" />
+            <result column="path" jdbcType="VARCHAR" property="path" />
+            <result column="component" jdbcType="VARCHAR" property="component" />
+            <result column="name" jdbcType="VARCHAR" property="name" />
+            <result column="iconCls" jdbcType="VARCHAR" property="iconCls" />
+            <result column="keepAlive" jdbcType="BIT" property="keepAlive" />
+            <result column="requireAuth" jdbcType="BIT" property="requireAuth" />
+            <result column="parentId" jdbcType="INTEGER" property="parentId" />
+            <result column="enabled" jdbcType="BIT" property="enabled" />
+        </collection>
+    </resultMap>
+    <resultMap id="MenuWithChildren" type="com.wg.pms.entity.dto.MenuNode" extends="BaseResultMap">
+        <id column="id1" property="id"/>
+        <result column="name1" property="name"/>
+        <collection property="children" ofType="com.wg.pms.entity.dto.MenuNode">
+            <id column="id2" property="id"/>
+            <result column="name2" property="name"/>
+            <collection property="children" ofType="com.wg.pms.entity.dto.MenuNode">
+                <id column="id3" property="id"/>
+                <result column="name3" property="name"/>
+            </collection>
+        </collection>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id,url,path,component,name,iconCls,keepAlive,requireAuth, parentId,enabled
+  </sql>
+    <select id="getAllMenuWithOutChildren" resultMap="BaseResultMap">
+        select *
+        from menu;
+    </select>
+    <select id="getAllMenus" resultMap="MenuWithChildren">
+ select m1.`id` as id1,m1.`name` as name1,m2.`id` as id2,m2.`name` as name2,m3.`id` as id3,m3.`name` as name3
+    from menu m1,menu m2,menu m3
+     where m1.`id`=m2.`parentId` and m2.`id`=m3.`parentId` and m3.`enabled`=true order by m1.`id`,m2.`id`,m3.`id`
+    </select>
+    <select id="getAllMenusByRoleId" resultMap="BaseResultMap">
+        SELECT
+           *
+        FROM
+             menu_role mr
+                LEFT JOIN menu m ON mr.mid = m.id
+        WHERE
+            mr.rid = #{roleId}
+          AND m.id IS NOT NULL
+    </select>
+</mapper>

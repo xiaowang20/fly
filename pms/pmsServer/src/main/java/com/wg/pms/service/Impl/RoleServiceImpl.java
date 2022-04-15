@@ -3,8 +3,11 @@ package com.wg.pms.service.Impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.util.StringUtil;
 import com.wg.pms.dao.AdminRoleDao;
+import com.wg.pms.dao.MenuDao;
 import com.wg.pms.dao.RoleDao;
 import com.wg.pms.entity.*;
+import com.wg.pms.entity.dto.MenuNode;
+import com.wg.pms.mapper.MenuRoleMapper;
 import com.wg.pms.mapper.RoleMapper;
 import com.wg.pms.service.RoleService;
 import org.springframework.beans.BeanUtils;
@@ -22,6 +25,10 @@ public class RoleServiceImpl implements RoleService {
     AdminRoleDao adminRoleDao;
     @Autowired
     RoleMapper roleMapper;
+    @Autowired
+    MenuRoleMapper menuRoleMapper;
+    @Autowired
+    MenuDao menuDao;
     @Override
     public List<Menu> getMenuList(Long adminId) {
         return roleDao.getMenuList(adminId);
@@ -73,5 +80,27 @@ public class RoleServiceImpl implements RoleService {
             roleMapper.deleteByPrimaryKey(roleId);
         }
         return 1;
+    }
+
+    @Override
+    public int allocMenu(Integer roleId, List<Integer> menuIds) {
+
+        MenuRoleExample menuRoleExample = new MenuRoleExample();
+        menuRoleExample.createCriteria().andRidEqualTo(roleId);
+        int i = menuRoleMapper.deleteByExample(menuRoleExample);
+        for (Integer menuId : menuIds) {
+            MenuRole menuRole = new MenuRole();
+            menuRole.setRid(roleId);
+            menuRole.setMid(menuId);
+            menuRoleMapper.insertSelective(menuRole);
+        }
+        return menuIds.size();
+
+    }
+
+    @Override
+    public List<MenuNode> getMenuByRoleId(Integer roleId) {
+
+        return menuDao.getAllMenusByRoleId(roleId);
     }
 }

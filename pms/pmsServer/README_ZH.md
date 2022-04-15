@@ -58,4 +58,10 @@
 1. admin管理
 2. role管理
 3. menu管理
+## 第四步
+### 薪资管理
+1. 需要表
+    1. salary
+    2. employee
+    3. empsalary
  

@@ -1,7 +1,10 @@
 package com.wg.pms.entity;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
 import java.io.Serializable;
+import java.util.List;
 
 public class Menu implements Serializable {
     private Integer id;
@@ -16,7 +19,7 @@ public class Menu implements Serializable {
 
     private String iconcls;
 
-    private Boolean keepAlive;
+    private Boolean keepalive;
 
     private Boolean requireauth;
 
@@ -24,7 +27,22 @@ public class Menu implements Serializable {
 
     private Boolean enabled;
 
-    private static final long serialVersionUID = 1L;
+
+    @Override
+    public String toString() {
+        return "Menu{" +
+                "id=" + id +
+                ", url='" + url + '\'' +
+                ", path='" + path + '\'' +
+                ", component='" + component + '\'' +
+                ", name='" + name + '\'' +
+                ", iconcls='" + iconcls + '\'' +
+                ", keepalive=" + keepalive +
+                ", requireauth=" + requireauth +
+                ", parentid=" + parentid +
+                ", enabled=" + enabled +
+                '}';
+    }
 
     public Integer getId() {
         return id;
@@ -66,36 +84,36 @@ public class Menu implements Serializable {
         this.name = name;
     }
 
-    public String getIconCls() {
+    public String getIconcls() {
         return iconcls;
     }
 
-    public void setIconCls(String iconCls) {
-        this.iconcls = iconCls;
+    public void setIconcls(String iconcls) {
+        this.iconcls = iconcls;
     }
 
     public Boolean getKeepalive() {
-        return keepAlive;
+        return keepalive;
     }
 
     public void setKeepalive(Boolean keepalive) {
-        this.keepAlive = keepalive;
+        this.keepalive = keepalive;
     }
 
-    public Boolean getRequireAuth() {
+    public Boolean getRequireauth() {
         return requireauth;
     }
 
-    public void setRequireAuth(Boolean requireAuth) {
-        this.requireauth = requireAuth;
+    public void setRequireauth(Boolean requireauth) {
+        this.requireauth = requireauth;
     }
 
-    public Integer getParentId() {
+    public Integer getParentid() {
         return parentid;
     }
 
-    public void setParentId(Integer parentId) {
-        this.parentid = parentId;
+    public void setParentid(Integer parentid) {
+        this.parentid = parentid;
     }
 
     public Boolean getEnabled() {
@@ -104,25 +122,5 @@ public class Menu implements Serializable {
 
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
-    }
-
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
-
-    @Override
-    public String toString() {
-        return "Menu{" +
-                "id=" + id +
-                ", url='" + url + '\'' +
-                ", path='" + path + '\'' +
-                ", component='" + component + '\'' +
-                ", name='" + name + '\'' +
-                ", iconCls='" + iconcls + '\'' +
-                ", keepalive=" + keepAlive +
-                ", requireAuth=" + requireauth +
-                ", parentId=" + parentid +
-                ", enabled=" + enabled +
-                '}';
     }
 }
