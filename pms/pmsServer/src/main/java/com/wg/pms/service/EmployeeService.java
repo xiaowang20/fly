@@ -65,4 +65,11 @@ public interface EmployeeService {
      * @return
      */
     Employee getAllById(Integer id);
+
+    /**
+     * 通过名字获取id
+     * @param name
+     * @return
+     */
+    Integer getIdByName(String name);
 }

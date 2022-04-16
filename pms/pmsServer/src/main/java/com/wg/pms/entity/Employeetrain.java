@@ -1,5 +1,6 @@
 package com.wg.pms.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.util.Date;
@@ -11,6 +12,7 @@ public class Employeetrain implements Serializable {
     private Integer eid;
 
     @ApiModelProperty(value = "培训日期")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date traindate;
 
     @ApiModelProperty(value = "培训内容")

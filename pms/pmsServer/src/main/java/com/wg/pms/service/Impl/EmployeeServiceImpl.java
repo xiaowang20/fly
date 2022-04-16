@@ -28,6 +28,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -143,6 +145,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setPosition(position);
         employee.setDepartment(department);
         return employee;
+    }
+
+    @Override
+    public Integer getIdByName(String name) {
+        return employeeDao.getIdByName(name);
     }
 
 

@@ -51,6 +51,9 @@
             <result column="name" jdbcType="VARCHAR" property="name" />
         </collection>
     </resultMap>
+    <select id="getIdByName" resultType="INTEGER">
+        select id from employee where name = #{name}
+    </select>
     <select id="getAllEmp" resultMap="BaseResultMap" resultType="Long">
         SELECT e.*,
         p.`id` polsta_id,p.`name` polsta_name,

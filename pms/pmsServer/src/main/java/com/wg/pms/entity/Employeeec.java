@@ -1,5 +1,6 @@
 package com.wg.pms.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.util.Date;
@@ -11,6 +12,7 @@ public class Employeeec implements Serializable {
     private Integer eid;
 
     @ApiModelProperty(value = "奖罚日期")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date ecdate;
 
     @ApiModelProperty(value = "奖罚原因")
@@ -24,6 +26,34 @@ public class Employeeec implements Serializable {
 
     @ApiModelProperty(value = "备注")
     private String remark;
+
+    private Employee employee;
+
+    @Override
+    public String toString() {
+        return "Employeeec{" +
+                "id=" + id +
+                ", eid=" + eid +
+                ", ecdate=" + ecdate +
+                ", ecreason='" + ecreason + '\'' +
+                ", ecpoint=" + ecpoint +
+                ", ectype=" + ectype +
+                ", remark='" + remark + '\'' +
+                ", employee=" + employee +
+                '}';
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
 
     private static final long serialVersionUID = 1L;
 
@@ -83,21 +113,4 @@ public class Employeeec implements Serializable {
         this.remark = remark;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", eid=").append(eid);
-        sb.append(", ecdate=").append(ecdate);
-        sb.append(", ecreason=").append(ecreason);
-        sb.append(", ecpoint=").append(ecpoint);
-        sb.append(", ectype=").append(ectype);
-        sb.append(", remark=").append(remark);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
-    }
 }

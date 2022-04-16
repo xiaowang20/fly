@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wg.pms.dao.EcDao">
+    <resultMap id="BaseResultMap" type="com.wg.pms.entity.Employeeec">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="eid" jdbcType="INTEGER" property="eid" />
+        <result column="ecDate" jdbcType="DATE" property="ecdate" />
+        <result column="ecReason" jdbcType="VARCHAR" property="ecreason" />
+        <result column="ecPoint" jdbcType="INTEGER" property="ecpoint" />
+        <result column="ecType" jdbcType="INTEGER" property="ectype" />
+        <result column="remark" jdbcType="VARCHAR" property="remark" />
+        <collection property="employee" javaType="com.wg.pms.entity.Employee" columnPrefix="e_">
+            <result column="id" property="id" jdbcType="INTEGER"/>
+            <result column="name" property="name" jdbcType="VARCHAR"/>
+        </collection>
+    </resultMap>
+    <select id="getList" resultMap="BaseResultMap">
+        select
+        ec.*,
+        e.id e_id,e.name e_name
+        from employee e left join employeeec ec on e.id = ec.eid
+        <where>
+            <if test="EID!=null">
+                and ec.eid = #{EID}
+            </if>
+        </where>
+    </select>
+</mapper>

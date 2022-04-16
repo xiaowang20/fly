@@ -41,4 +41,11 @@ public interface EmployeeDao {
      * @return
      */
     Integer addEmps(@Param("list") List<Employee> list);
+
+    /**
+     * 通过姓名获取id值
+     * @param name
+     * @return
+     */
+    Integer getIdByName(@Param("name") String name);
 }

@@ -90,7 +90,16 @@ public class EmployeeController {
             return CommonResult.failed(ResponseResult.SELECT_FAILED.getMessage());
         }
     }
-
+    @ApiOperation("根据姓名获取员工ID")
+    @GetMapping("/getIdByName/{name}")
+    public CommonResult getIdByName(@PathVariable("name") String name){
+        Integer employee = employeeService.getIdByName(name);
+        if (employee!=null){
+            return CommonResult.success(employee);
+        }else {
+            return CommonResult.failed(ResponseResult.SELECT_FAILED.getMessage());
+        }
+    }
     @ApiOperation("根据编号更新员工")
     @PutMapping("/update/{id}")
     public CommonResult update(@PathVariable("id") Integer id, @RequestBody EmployeeParams employeeParams){

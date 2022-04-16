@@ -1,5 +1,6 @@
 package com.wg.pms.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.util.Date;
@@ -16,6 +17,7 @@ public class Employeeremove implements Serializable {
     private Integer afterjobid;
 
     @ApiModelProperty(value = "调动日期")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date removedate;
 
     @ApiModelProperty(value = "调动原因")
