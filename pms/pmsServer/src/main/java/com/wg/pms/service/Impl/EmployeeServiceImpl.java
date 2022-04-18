@@ -47,6 +47,14 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     DepartmentMapper departmentMapper;
     @Autowired
+    EmployeeecMapper employeeecMapper;
+    @Autowired
+    EmployeeremoveMapper employeeremoveMapper;
+    @Autowired
+    EmployeetrainMapper employeetrainMapper;
+    @Autowired
+    AdjustsalaryMapper adjustsalaryMapper;
+    @Autowired
     EmployeeDao employeeDao;
     @Autowired
     MailSendLogService mailSendLogService;
@@ -98,8 +106,23 @@ public class EmployeeServiceImpl implements EmployeeService {
         double month = (Double.parseDouble(yearFormat.format(endContract)) - Double.parseDouble(yearFormat.format(beginContract))) * 12 + (Double.parseDouble(monthFormat.format(endContract)) - Double.parseDouble(monthFormat.format(beginContract)));
         employee.setContractterm(Double.parseDouble(decimalFormat.format(month / 12)));
         int result = employeeMapper.insertSelective(employee);
+
         if (result == 1) {
             Employee emp = employeeDao.getByPrimaryKey(employee.getId());
+            Employeeec employeeec = new Employeeec();
+            employeeec.setEid(emp.getId());
+            employeeecMapper.insert(employeeec);//插入员工奖罚eid
+            Employeeremove employeeremove = new Employeeremove();
+            employeeremove.setEid(emp.getId());
+            employeeremove.setAfterdepid(emp.getDepartmentid());
+            employeeremove.setAfterjobid(emp.getJoblevelid());
+            employeeremoveMapper.insert(employeeremove);//插入员工调动eid
+            Employeetrain employeetrain = new Employeetrain();
+            employeetrain.setEid(emp.getId());
+            employeetrainMapper.insert(employeetrain);//插入员工培训eid
+            Adjustsalary adjustsalary = new Adjustsalary();
+            adjustsalary.setEid(emp.getId());
+            adjustsalaryMapper.insert(adjustsalary);
             //生成消息的唯一id
             String msgId = UUID.randomUUID().toString();
             MailSendLog mailSendLog = new MailSendLog();
@@ -150,6 +173,17 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Integer getIdByName(String name) {
         return employeeDao.getIdByName(name);
+    }
+
+    @Override
+    public List<Integer> getIdNyName1(String name) {
+        EmployeeExample employeeExample = new EmployeeExample();
+        employeeExample.createCriteria().andNameEqualTo(name);
+        List<Employee> list = employeeMapper.selectByExample(employeeExample);
+        List<Integer> integers = list.stream()
+                .map(Employee::getId)
+                .collect(Collectors.toList());
+        return integers;
     }
 
 

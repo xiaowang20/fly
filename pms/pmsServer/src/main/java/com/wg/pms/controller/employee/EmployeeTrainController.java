@@ -30,6 +30,17 @@ public class EmployeeTrainController {
         }
         return CommonResult.failed(ResponseResult.SELECT_FAILED);
     }
+    @ApiOperation("联表将eid换成名字")
+    @GetMapping("list1")
+    public CommonResult list1(@RequestParam(value = "pageNum",defaultValue = "1") Integer page,
+                              @RequestParam(value = "pageSize",defaultValue = "5") Integer size,
+                              @RequestParam(required = false) String keyword){
+        List<Employeetrain> list = employeeTrainService.list1(page, size, keyword);
+        if (list!=null){
+            return CommonResult.success(CommonPage.restPage(list));
+        }
+        return CommonResult.failed(ResponseResult.SELECT_FAILED);
+    }
     @ApiOperation("添加员工培训信息")
     @PostMapping("addEmpTrain")
     public CommonResult add(@RequestBody Employeetrain employeetrain){

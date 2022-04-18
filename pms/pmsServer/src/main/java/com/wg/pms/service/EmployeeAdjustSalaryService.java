@@ -37,4 +37,13 @@ public interface EmployeeAdjustSalaryService {
      * @return
      */
     int delete(Integer id);
+
+    /**
+     * 搜索
+     * @param page
+     * @param size
+     * @param keyword
+     * @return
+     */
+    List<Adjustsalary> list1(Integer page, Integer size, String keyword);
 }

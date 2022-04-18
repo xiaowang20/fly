@@ -91,14 +91,10 @@ public class EmployeeController {
         }
     }
     @ApiOperation("根据姓名获取员工ID")
-    @GetMapping("/getIdByName/{name}")
-    public CommonResult getIdByName(@PathVariable("name") String name){
+    @GetMapping("/getIdByName")
+    public CommonResult getIdByName(@RequestParam(required = false) String name){
         Integer employee = employeeService.getIdByName(name);
-        if (employee!=null){
-            return CommonResult.success(employee);
-        }else {
-            return CommonResult.failed(ResponseResult.SELECT_FAILED.getMessage());
-        }
+        return CommonResult.success(employee);
     }
     @ApiOperation("根据编号更新员工")
     @PutMapping("/update/{id}")

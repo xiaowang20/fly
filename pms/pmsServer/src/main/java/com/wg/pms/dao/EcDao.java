@@ -1,5 +1,6 @@
 package com.wg.pms.dao;
 
+import com.wg.pms.entity.Employee;
 import com.wg.pms.entity.Employeeec;
 import org.apache.ibatis.annotations.Param;
 
@@ -15,4 +16,8 @@ public interface EcDao {
      * @return
      */
     List<Employeeec> getList(@Param("EID") Integer eid);
+
+    Employeeec getList1(@Param("idNyName") Integer eid);
+
+    List<Employeeec> getList3(@Param("idNyName1") Integer idNyName1);
 }

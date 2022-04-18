@@ -1,6 +1,7 @@
 package com.wg.pms;
 
 import com.wg.pms.common.CommonPage;
+import com.wg.pms.dao.EcDao;
 import com.wg.pms.dao.EmployeeDao;
 import com.wg.pms.dao.MenuDao;
 import com.wg.pms.entity.Department;
@@ -46,10 +47,16 @@ public class PmsApplicationTest {
     MenuService menuService;
     @Autowired
     MenuDao menuDao;
-
+    @Autowired
+    EcDao ecDao;
+    @Test
+    public void testEc(){
+        System.out.println(ecDao.getList3(null));
+//        System.out.println(ecDao.getList(null));
+    }
     @Test
     public void test2Menu(){
-        System.out.println(menuDao.getAllMenusByRoleId(22));
+        System.out.println(employeeService.getIdNyName1("江南一点雨"));
     }
 
     @Test

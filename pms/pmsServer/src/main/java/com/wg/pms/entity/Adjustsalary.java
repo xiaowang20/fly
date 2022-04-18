@@ -25,6 +25,33 @@ public class Adjustsalary implements Serializable {
 
     @ApiModelProperty(value = "备注")
     private String remark;
+    private Employee employee;
+
+    @Override
+    public String toString() {
+        return "Adjustsalary{" +
+                "id=" + id +
+                ", eid=" + eid +
+                ", asdate=" + asdate +
+                ", beforesalary=" + beforesalary +
+                ", aftersalary=" + aftersalary +
+                ", reason='" + reason + '\'' +
+                ", remark='" + remark + '\'' +
+                ", employee=" + employee +
+                '}';
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
 
     private static final long serialVersionUID = 1L;
 
@@ -84,21 +111,4 @@ public class Adjustsalary implements Serializable {
         this.remark = remark;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", eid=").append(eid);
-        sb.append(", asdate=").append(asdate);
-        sb.append(", beforesalary=").append(beforesalary);
-        sb.append(", aftersalary=").append(aftersalary);
-        sb.append(", reason=").append(reason);
-        sb.append(", remark=").append(remark);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
-    }
 }

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Api(tags = "员工奖罚")
 @RestController
@@ -36,6 +37,28 @@ public class EmployeeEcController {
                              @RequestParam(value = "pageSize",defaultValue = "5") Integer size,
                              @RequestParam(required = false) String keyword){
         List<Employeeec> list = employeeEcService.list1(page,size,keyword);
+        if (list!=null){
+            return CommonResult.success(CommonPage.restPage(list));
+        }
+        return CommonResult.failed(ResponseResult.SELECT_FAILED);
+    }
+    @ApiOperation("联表将eid换成名字")
+    @GetMapping("list3")
+    public CommonResult list3(@RequestParam(value = "pageNum",defaultValue = "1") Integer page,
+                              @RequestParam(value = "pageSize",defaultValue = "5") Integer size,
+                              @RequestParam(required = false) String keyword){
+        List< List<Employeeec>> list = employeeEcService.list3(page,size,keyword);
+        if (list!=null){
+            return CommonResult.success(CommonPage.restPage(list));
+        }
+        return CommonResult.failed(ResponseResult.SELECT_FAILED);
+    }
+    @ApiOperation("联表将eid换成名字")
+    @GetMapping("list2")
+    public CommonResult list2(@RequestParam(value = "pageNum",defaultValue = "1") Integer page,
+                              @RequestParam(value = "pageSize",defaultValue = "5") Integer size,
+                              @RequestParam(required = false) String keyword){
+        List<Employeeec> list = employeeEcService.list2(page, size, keyword);
         if (list!=null){
             return CommonResult.success(CommonPage.restPage(list));
         }

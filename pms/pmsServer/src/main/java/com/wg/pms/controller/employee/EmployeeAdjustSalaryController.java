@@ -5,6 +5,7 @@ import com.wg.pms.common.CommonResult;
 import com.wg.pms.common.ResponseResult;
 import com.wg.pms.entity.Adjustsalary;
 import com.wg.pms.entity.Employeeec;
+import com.wg.pms.entity.Employeeremove;
 import com.wg.pms.service.EmployeeAdjustSalaryService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,6 +27,17 @@ public class EmployeeAdjustSalaryController {
                              @RequestParam(value = "pageSize",defaultValue = "5") Integer size,
                              @RequestParam(required = false) Integer eId){
         List<Adjustsalary> list = employeeAdjustSalaryService.list(page,size,eId);
+        if (list!=null){
+            return CommonResult.success(CommonPage.restPage(list));
+        }
+        return CommonResult.failed(ResponseResult.SELECT_FAILED);
+    }
+    @ApiOperation("联表将eid换成名字")
+    @GetMapping("list1")
+    public CommonResult list1(@RequestParam(value = "pageNum",defaultValue = "1") Integer page,
+                              @RequestParam(value = "pageSize",defaultValue = "5") Integer size,
+                              @RequestParam(required = false) String keyword){
+        List<Adjustsalary> list = employeeAdjustSalaryService.list1(page, size, keyword);
         if (list!=null){
             return CommonResult.success(CommonPage.restPage(list));
         }

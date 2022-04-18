@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wg.pms.dao.EmpRemoveDao">
+    <resultMap id="BaseResultMap" type="com.wg.pms.entity.Employeeremove">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="eid" jdbcType="INTEGER" property="eid" />
+        <result column="afterDepId" jdbcType="INTEGER" property="afterdepid" />
+        <result column="afterJobId" jdbcType="INTEGER" property="afterjobid" />
+        <result column="removeDate" jdbcType="DATE" property="removedate" />
+        <result column="reason" jdbcType="VARCHAR" property="reason" />
+        <result column="remark" jdbcType="VARCHAR" property="remark" />
+        <collection property="employee" javaType="com.wg.pms.entity.Employee" columnPrefix="e_">
+
+            <result column="name" property="name" jdbcType="VARCHAR"/>
+        </collection>
+        <collection property="department" javaType="com.wg.pms.entity.Department" columnPrefix="dep_">
+
+            <result column="name" jdbcType="VARCHAR" property="name" />
+        </collection>
+        <collection property="joblevel" javaType="com.wg.pms.entity.Joblevel" columnPrefix="job_" >
+
+            <result column="name" jdbcType="VARCHAR" property="name" />
+        </collection>
+    </resultMap>
+    <select id="getList1" resultMap="BaseResultMap">
+        select
+        er.*,
+        e.`name` e_name,
+        d.`name` dep_name,
+        j.`name` job_name
+        FROM employeeremove er
+        LEFT JOIN employee e ON er.eid = e.id
+        LEFT JOIN department d ON d.id = er.afterDepId
+        LEFT JOIN joblevel j ON j.id = er.afterJobId
+        where er.eid = #{EID}
+    </select>
+    <select id="getList2" resultMap="BaseResultMap">
+        select
+        er.*,
+        e.name e_name,
+        d.name dep_name,
+        j.name job_name
+        from employeeremove er
+        left join employee e on e.id = er.eid
+        left join department d on d.id = er.afterDepId
+        left join joblevel j on j.id = er.afterJobId
+        <where>
+            <if test="EID1!=null">
+                and er.eid = #{EID1}
+            </if>
+        </where>
+    </select>
+</mapper>

@@ -24,6 +24,53 @@ public class Employeeremove implements Serializable {
     private String reason;
 
     private String remark;
+    private Employee employee;
+    private Department department;
+    private Joblevel joblevel;
+
+    @Override
+    public String toString() {
+        return "Employeeremove{" +
+                "id=" + id +
+                ", eid=" + eid +
+                ", afterdepid=" + afterdepid +
+                ", afterjobid=" + afterjobid +
+                ", removedate=" + removedate +
+                ", reason='" + reason + '\'' +
+                ", remark='" + remark + '\'' +
+                ", employee=" + employee +
+                ", department=" + department +
+                ", joblevel=" + joblevel +
+                '}';
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+
+    public Joblevel getJoblevel() {
+        return joblevel;
+    }
+
+    public void setJoblevel(Joblevel joblevel) {
+        this.joblevel = joblevel;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
 
     private static final long serialVersionUID = 1L;
 
@@ -83,21 +130,4 @@ public class Employeeremove implements Serializable {
         this.remark = remark;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", eid=").append(eid);
-        sb.append(", afterdepid=").append(afterdepid);
-        sb.append(", afterjobid=").append(afterjobid);
-        sb.append(", removedate=").append(removedate);
-        sb.append(", reason=").append(reason);
-        sb.append(", remark=").append(remark);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
-    }
 }

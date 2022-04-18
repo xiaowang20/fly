@@ -20,6 +20,31 @@ public class Employeetrain implements Serializable {
 
     @ApiModelProperty(value = "备注")
     private String remark;
+    private Employee employee;
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    @Override
+    public String toString() {
+        return "Employeetrain{" +
+                "id=" + id +
+                ", eid=" + eid +
+                ", traindate=" + traindate +
+                ", traincontent='" + traincontent + '\'' +
+                ", remark='" + remark + '\'' +
+                ", employee=" + employee +
+                '}';
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
 
     private static final long serialVersionUID = 1L;
 
@@ -63,19 +88,4 @@ public class Employeetrain implements Serializable {
         this.remark = remark;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", eid=").append(eid);
-        sb.append(", traindate=").append(traindate);
-        sb.append(", traincontent=").append(traincontent);
-        sb.append(", remark=").append(remark);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
-    }
 }

@@ -3,6 +3,7 @@ package com.wg.pms.service;
 import com.wg.pms.entity.Employeeec;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 员工奖罚Service
@@ -46,4 +47,8 @@ public interface EmployeeEcService {
      * @return
      */
     List<Employeeec> list1(Integer page, Integer size, String keyword);
+
+    List<Employeeec> list2(Integer page, Integer size, String keyword);
+
+    List< List<Employeeec>> list3(Integer page, Integer size, String keyword);
 }

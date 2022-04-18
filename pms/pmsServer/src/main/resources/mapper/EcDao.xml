@@ -14,6 +14,25 @@
             <result column="name" property="name" jdbcType="VARCHAR"/>
         </collection>
     </resultMap>
+    <select id="getList1" resultMap="BaseResultMap">
+        select
+        ec.*,
+        e.id e_id,e.name e_name
+        from employeeec ec  left join employee e on ec.eid = e.id where ec.eid = #{idNyName}
+
+
+    </select>
+    <select id="getList3" resultMap="BaseResultMap">
+        select
+        ec.*,
+        e.id e_id,e.name e_name
+        from employeeec ec  left join employee e on ec.eid = e.id
+        <where>
+            <if test="idNyName1!=null">
+                and ec.eid = #{idNyName1}
+            </if>
+        </where>
+    </select>
     <select id="getList" resultMap="BaseResultMap">
         select
         ec.*,

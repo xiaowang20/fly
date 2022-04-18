@@ -72,4 +72,6 @@ public interface EmployeeService {
      * @return
      */
     Integer getIdByName(String name);
+
+    List<Integer> getIdNyName1(String name);
 }

@@ -30,6 +30,17 @@ public class EmployeeRemoveController {
         }
         return CommonResult.failed(ResponseResult.SELECT_FAILED);
     }
+    @ApiOperation("联表将eid换成名字")
+    @GetMapping("list1")
+    public CommonResult list1(@RequestParam(value = "pageNum",defaultValue = "1") Integer page,
+                              @RequestParam(value = "pageSize",defaultValue = "5") Integer size,
+                              @RequestParam(required = false) String keyword){
+        List<Employeeremove> list = employeeRemoveService.list1(page, size, keyword);
+        if (list!=null){
+            return CommonResult.success(CommonPage.restPage(list));
+        }
+        return CommonResult.failed(ResponseResult.SELECT_FAILED);
+    }
     @ApiOperation("添加员工调动信息")
     @PostMapping("addEmpRemove")
     public CommonResult add(@RequestBody Employeeremove employeeremove){

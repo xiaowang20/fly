@@ -27,4 +27,11 @@ public interface EmployeeremoveMapper {
     int updateByPrimaryKeySelective(Employeeremove record);
 
     int updateByPrimaryKey(Employeeremove record);
+
+    /**
+     * 通过名字获取id
+     * @param keyword
+     * @return
+     */
+    List<Integer> getIdNyName(String keyword);
 }
